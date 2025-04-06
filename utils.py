@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-def gen_2D_gaussians(s1 = 0.3, s2 = 0.3, nc = 100, c1 = np.array([3, 3]), c2 = np.array([4, 4])):
+def gen_2D_gaussians(s1 = 0.3, s2 = 0.3, nc = 100, c1 = np.array([1, 1]), c2 = np.array([2, 2])):
     '''
     Generates two 2D Gaussian distributions with different means and variances.
     
