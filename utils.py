@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 def gen_2D_gaussians(s1 = 0.3, s2 = 0.3, nc = 100, c1 = np.array([3, 3]), c2 = np.array([4, 4])):
     '''
@@ -26,3 +27,47 @@ def gen_2D_gaussians(s1 = 0.3, s2 = 0.3, nc = 100, c1 = np.array([3, 3]), c2 = n
     Y = np.vstack((yc1, yc2))
 
     return X, Y
+
+def gen_1D_gaussians(x: np.ndarray, s=0.3, c=4):
+    """
+    Computes the Gaussian distribution values for an array of input values.
+    
+    Parameters:
+    x (array-like): Input values.
+    s (float): Standard deviation of the Gaussian distribution.
+    c (float): Mean of the Gaussian distribution.
+    
+    Returns:
+    list: Gaussian distribution values corresponding to x.
+    """
+    return list((1 / (s * np.sqrt(2 * np.pi))) * np.exp(-((x - c) ** 2) / (2 * s ** 2)))
+
+
+
+def plot_1D_gaussians(X: np.ndarray, Y: np.ndarray):
+    '''
+    Plots the generated 1D Gaussian distributions.
+    
+    Parameters:
+    X (ndarray): Data points.
+    Y (ndarray): Labels for the data points.
+    '''
+    plt.figure(figsize=(8, 4))
+    plt.hist(X[Y == 1], bins=100, alpha=0.6, label='Class 1')
+    plt.hist(X[Y == -1], bins=100, alpha=0.6, label='Class -1')
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    plt.title('1D Gaussian Distributions')
+    plt.legend()
+    plt.show()
+
+def plot_superficie():
+    seqi = np.linspace(0, 6, 100)
+    seqj = np.linspace(0, 6, 100)
+    M1 = np.zeros((len(seqi), len(seqj)))
+    ci = 0
+    for i in seqi:
+        cj = 0
+        ci += 1
+        for j in seqj:
+            M1[ci][cj] = algumcalculo()
