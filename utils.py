@@ -61,13 +61,13 @@ def plot_1D_gaussians(X: np.ndarray, Y: np.ndarray):
     plt.legend()
     plt.show()
 
-def plot_superficie():
-    seqi = np.linspace(0, 6, 100)
-    seqj = np.linspace(0, 6, 100)
-    M1 = np.zeros((len(seqi), len(seqj)))
-    ci = 0
-    for i in seqi:
-        cj = 0
-        ci += 1
-        for j in seqj:
-            M1[ci][cj] = algumcalculo()
+# def plot_superficie():
+#     seqi = np.linspace(0, 6, 100)
+#     seqj = np.linspace(0, 6, 100)
+#     M1 = np.zeros((len(seqi), len(seqj)))
+#     ci = 0
+#     for i in seqi:
+#         cj = 0
+#         ci += 1
+#         for j in seqj:
+#             M1[ci][cj] = algumcalculo()
