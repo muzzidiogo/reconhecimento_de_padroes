@@ -61,6 +61,11 @@ def plot_1D_gaussians(X: np.ndarray, Y: np.ndarray):
     plt.legend()
     plt.show()
 
+def pdfnvar(x, m, K, n):
+        """Multivariate normal PDF calculator"""
+        x_m = x - m
+        return (1 / (np.sqrt((2 * np.pi) ** n * np.linalg.det(K)))) * np.exp(-0.5 * (x_m.T @ np.linalg.inv(K) @ x_m))
+
 # def plot_superficie():
 #     seqi = np.linspace(0, 6, 100)
 #     seqj = np.linspace(0, 6, 100)
@@ -71,3 +76,41 @@ def plot_1D_gaussians(X: np.ndarray, Y: np.ndarray):
 #         ci += 1
 #         for j in seqj:
 #             M1[ci][cj] = algumcalculo()
+
+def mymix(x, inlist):
+    """
+    Convert from R function mymix that calculates mixture model probability density
+    
+    Parameters:
+    x: array-like, input vector
+    inlist: list of numpy arrays (data matrices)
+    
+    Returns:
+    Probability density at point x
+    """
+    ng = len(inlist)
+    klist = []
+    mlist = []
+    pglist = []
+    nglist = []
+    n = inlist[0].shape[1]  # Number of dimensions
+    
+    # Calculate covariance and means for each group
+    for i in range(ng):
+        klist.append(np.cov(inlist[i], rowvar=False))
+        mlist.append(np.mean(inlist[i], axis=0))
+        nglist.append(inlist[i].shape[0])
+    
+    # Calculate total number of observations
+    N = sum(nglist)
+    
+    # Calculate prior probabilities
+    for i in range(ng):
+        pglist.append(nglist[i] / N)
+    
+    # Calculate mixture probability
+    Px = 0
+    for i in range(ng):
+        Px += pglist[i] * pdfnvar(x, mlist[i], klist[i], n)
+    
+    return Px
