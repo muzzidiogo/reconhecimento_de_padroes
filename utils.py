@@ -28,6 +28,23 @@ def gen_2D_gaussians(s1 = 0.3, s2 = 0.3, nc = 100, c1 = np.array([1, 1]), c2 = n
 
     return X, Y
 
+def make_normal_data(s = 0.3, n = 100, c = np.array([0,0]), dim = 2, label = 1):
+    """Generates a dataset from a Gaussian distribution with specified parameters.
+    
+    Parameters:
+    s (float): Standard deviation of the Gaussian.
+    n (int): Number of samples.
+    c (ndarray): Center of the Gaussian.
+    dim (int): Dimension of the Gaussian.
+    label (int): Label for the generated samples.
+    """
+    assert len(c) == dim, f"Dimension mismatch: Expected {dim}, but got {len(c)}."
+    
+    X = np.random.randn(n, dim) * s + c
+    Y = np.ones((n, 1)) * label
+    
+    return X, Y
+
 def gen_1D_gaussians(x: np.ndarray, s=0.3, c=4):
     """
     Computes the Gaussian distribution values for an array of input values.
@@ -41,8 +58,6 @@ def gen_1D_gaussians(x: np.ndarray, s=0.3, c=4):
     list: Gaussian distribution values corresponding to x.
     """
     return list((1 / (s * np.sqrt(2 * np.pi))) * np.exp(-((x - c) ** 2) / (2 * s ** 2)))
-
-
 
 def plot_1D_gaussians(X: np.ndarray, Y: np.ndarray):
     '''
@@ -66,6 +81,10 @@ def pdfnvar(x, m, K, n):
         x_m = x - m
         return (1 / (np.sqrt((2 * np.pi) ** n * np.linalg.det(K)))) * np.exp(-0.5 * (x_m.T @ np.linalg.inv(K) @ x_m))
 
+def pdfnormal(x, m, s):
+    """Normal PDF calculator"""
+    return (1 / (s * np.sqrt(2 * np.pi))) * np.exp(-((x - m) ** 2) / (2 * s ** 2))
+
 # def plot_superficie():
 #     seqi = np.linspace(0, 6, 100)
 #     seqj = np.linspace(0, 6, 100)
@@ -78,8 +97,7 @@ def pdfnvar(x, m, K, n):
 #             M1[ci][cj] = algumcalculo()
 
 def mymix(x, inlist):
-    """
-    Convert from R function mymix that calculates mixture model probability density
+    """Calculates mixture model probability density.
     
     Parameters:
     x: array-like, input vector
