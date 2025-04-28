@@ -20,12 +20,11 @@ def gen_2D_gaussians(s1 = 0.3, s2 = 0.3, nc = 100, c1 = np.array([1, 1]), c2 = n
 
     xc1 = np.random.randn(nc, 2) * s1 + c1
     xc2 = np.random.randn(nc, 2) * s2 + c2
-    yc1 = np.ones((nc,1))
-    yc2 = -np.ones((nc,1))
+    yc1 = np.ones((nc))
+    yc2 = -np.ones((nc))
 
     X = np.vstack((xc1, xc2))  
-    Y = np.vstack((yc1, yc2))
-
+    Y = np.concatenate((yc1, yc2))
     return X, Y
 
 def make_normal_data(s = 0.3, n = 100, c = np.array([0,0]), dim = 2, label = 1):
@@ -38,11 +37,13 @@ def make_normal_data(s = 0.3, n = 100, c = np.array([0,0]), dim = 2, label = 1):
     dim (int): Dimension of the Gaussian.
     label (int): Label for the generated samples.
     """
-    assert len(c) == dim, f"Dimension mismatch: Expected {dim}, but got {len(c)}."
+    assert len(c) == dim, f"Center point dimension mismatch: Expected {dim}, but got {len(c)}."
     
     X = np.random.randn(n, dim) * s + c
-    Y = np.ones((n, 1)) * label
-    
+    if label == 1:
+        Y = np.ones((n))
+    elif label == -1:
+        Y = -np.ones((n))
     return X, Y
 
 def gen_1D_gaussians(x: np.ndarray, s=0.3, c=4):
