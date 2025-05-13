@@ -82,20 +82,22 @@ def pdfnvar(x, m, K, n):
         x_m = x - m
         return (1 / (np.sqrt((2 * np.pi) ** n * np.linalg.det(K)))) * np.exp(-0.5 * (x_m.T @ np.linalg.inv(K) @ x_m))
 
-def pdfnormal(x, m, s):
-    """Normal PDF calculator"""
+def pdfnormal(x: np.ndarray, m, s):
+    """Normal PDF calculator
+    Parameters:
+    x: array-like, grid space
+    m: mean
+    s: standard deviation
+    """
     return (1 / (s * np.sqrt(2 * np.pi))) * np.exp(-((x - m) ** 2) / (2 * s ** 2))
 
 # def plot_superficie():
-#     seqi = np.linspace(0, 6, 100)
-#     seqj = np.linspace(0, 6, 100)
-#     M1 = np.zeros((len(seqi), len(seqj)))
-#     ci = 0
-#     for i in seqi:
-#         cj = 0
-#         ci += 1
-#         for j in seqj:
-#             M1[ci][cj] = algumcalculo()
+# seqi = np.arange(0, 10, 0.5)
+# seqj = np.arange(0, 10, 0.5)
+# M1 = np.zeros((len(seqi), len(seqj)))
+# for i in seqi:
+#     for j in seqj:
+#         M1[i][j] = algumcalculo()
 
 def mymix(x, inlist):
     """Calculates mixture model probability density.
