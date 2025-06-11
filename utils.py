@@ -135,3 +135,63 @@ def mymix(x, inlist):
         Px += pglist[i] * pdfnvar(x, mlist[i], klist[i], n)
     
     return Px
+
+class myPerceptron:
+    def __init__(
+        self, 
+        X: np.ndarray, 
+        Y: np.ndarray, 
+        eta: float, 
+        tol: float, 
+        max_epochs: int, 
+        par=1
+        ) -> None:
+        """
+        Perceptron class. 
+        Adjusts model weight based on training data.
+
+        Parameters:
+        X (ndarray): input data
+        Y (ndarray): target labels
+        eta (float): learning rate
+        tol (float): error tolerance
+        max_epochs (int): maximum number of epochs
+        """
+        if par == 1:
+            # Add bias term to the input data
+            w = np.random.randn(X.shape[1] + 1)
+            X = np.hstack((np.ones((X.shape[0], 1)), X))
+        else:
+            w = np.random.randn(X.shape[1])
+        
+        N = len(X)
+        self.error_epoch = [tol + 1]
+        self.n_epoch = [0]
+        
+        while self.n_epoch[-1] < max_epochs and \
+            self.error_epoch[-1] > tol:
+            xseq = np.random.permutation(N)
+            ei2 = 0
+
+            for i in range(N):
+                i_rand = xseq[i]
+                err = Y[i_rand] - np.sign(np.dot(w, X[i_rand, :]))
+                w += eta * err * X[i_rand, :]
+                ei2 += err ** 2
+            self.error_epoch.append(ei2)
+            self.n_epoch.append(self.n_epoch[-1] + 1)
+        
+        self.weights = w
+
+    def predict(self, sample: np.ndarray, par=1) -> np.ndarray:
+        """
+        Predict sample class.
+
+        Parameters:
+        sample (ndarray): input data
+        """
+        if par == 1:
+            # Add bias term to the input data
+            sample = np.hstack(((1,), sample))
+        output = np.dot(sample, self.weights)
+        return 1 if output >= 0 else 0
